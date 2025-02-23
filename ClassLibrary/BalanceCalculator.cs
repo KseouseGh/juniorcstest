@@ -33,11 +33,12 @@ namespace ClassLibrary
             var tickerBTCtoXRP = (await connector.GetTickerAsync("BTCXRP")).FirstOrDefault();
             var tickerBTCtoXMR = (await connector.GetTickerAsync("BTCXMR")).FirstOrDefault();
             var tickerBTCtoDASH = (await connector.GetTickerAsync("BTCDASH")).FirstOrDefault();
-            GeneralBalance.USDT = GeneralBalance.BTC * tickerBTCtoUSDT + GeneralBalance.XRP * tickerXRPtoUSDT + GeneralBalance.XMR * tickerXMRtoUSDT + GeneralBalance.DASH * tickerDASHtoUSDT;
-            GeneralBalance.BTC = GeneralBalance.BTC;
-            GeneralBalance.XRP = GeneralBalance.BTC * tickerBTCtoXRP;
-            GeneralBalance.XMR = GeneralBalance.BTC * tickerBTCtoXMR;
-            GeneralBalance.DASH = GeneralBalance.BTC * tickerBTCtoDASH;
+            GeneralBalance.USDT = (GeneralBalance.BTC * tickerBTCtoUSDT) + (GeneralBalance.XRP * tickerXRPtoUSDT) + (GeneralBalance.XMR * tickerXMRtoUSDT) + (GeneralBalance.DASH * tickerDASHtoUSDT);
+            decimal totalBTC = GeneralBalance.BTC + (GeneralBalance.XRP / tickerBTCtoXRP) + (GeneralBalance.XMR / tickerBTCtoXMR) + (GeneralBalance.DASH / tickerBTCtoDASH);
+            GeneralBalance.XRP = totalBTC * tickerBTCtoXRP;
+            GeneralBalance.XMR = totalBTC * tickerBTCtoXMR;
+            GeneralBalance.DASH = totalBTC * tickerBTCtoDASH;
+            GeneralBalance.BTC = totalBTC;
             return GeneralBalance;
         }
     }
