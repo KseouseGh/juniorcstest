@@ -28,7 +28,7 @@ namespace ClassLibrary
 
         private void ProcessResponse_Trades(string Json)
         {
-            Console.WriteLine($"New message! {Json}");
+            Debug.WriteLine($"New message! {Json}");
             try
             {
                 var data = JsonConvert.DeserializeObject<JArray>(Json);
@@ -53,7 +53,7 @@ namespace ClassLibrary
                     }
                     else { NewSellTrade?.Invoke(newTrade); }
 
-                    Console.WriteLine($"New trade! {newTrade.Price} USD, {newTrade.Amount} BTC");
+                    Debug.WriteLine($"New trade! {newTrade.Price} USD, {newTrade.Amount} BTC");
                 }
 
             }
@@ -62,7 +62,7 @@ namespace ClassLibrary
 
         private void ProcessResponse_Candles(string Json)
         {
-            Console.WriteLine($"New candle data! {Json}");
+            Debug.WriteLine($"New candle data! {Json}");
             try
             {
                 var data = JsonConvert.DeserializeObject<JArray>(Json);
@@ -83,12 +83,12 @@ namespace ClassLibrary
                         Pair = ""
                     };
                     CandleSeriesProcessing?.Invoke(newCandle);
-                    Console.WriteLine($"New candle! Time: {newCandle.OpenTime}, Open: {newCandle.OpenPrice}, Close: {newCandle.ClosePrice}, Volume: {newCandle.TotalVolume}");
+                    Debug.WriteLine($"New candle! Time: {newCandle.OpenTime}, Open: {newCandle.OpenPrice}, Close: {newCandle.ClosePrice}, Volume: {newCandle.TotalVolume}");
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error while processing candle data! {e.Message}");
+                Debug.WriteLine($"Error while processing candle data! {e.Message}");
             }
         }
 
@@ -126,7 +126,7 @@ namespace ClassLibrary
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"Error processing message! {e.Message}");
+                    Debug.WriteLine($"Error processing message! {e.Message}");
                 }
             }
         }
@@ -171,7 +171,7 @@ namespace ClassLibrary
             }
             else
             {
-                Console.WriteLine("Closed WebSocket cannot be unsubscribed.");
+                Debug.WriteLine("Closed WebSocket cannot be unsubscribed.");
             }
         }
 
@@ -237,7 +237,7 @@ namespace ClassLibrary
             }
             else
             {
-                Console.WriteLine("Closed WebSocket cannot be unsubscribed.");
+                Debug.WriteLine("Closed WebSocket cannot be unsubscribed.");
             }
         }
 
