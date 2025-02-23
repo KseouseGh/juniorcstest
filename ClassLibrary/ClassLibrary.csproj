@@ -44,11 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BalanceCalculator.cs" />
     <Compile Include="BitapiClient.cs" />
     <Compile Include="BitapiClient_REST.cs" />
     <Compile Include="BitapiClient_WS.cs" />
     <Compile Include="Candle.cs" />
     <Compile Include="ITestConnector.cs" />
+    <Compile Include="ProfileBalance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trade.cs" />
   </ItemGroup>
