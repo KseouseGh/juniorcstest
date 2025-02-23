@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 namespace ClassLibrary
 {
     [Serializable]
-    internal class BitapiClient_REST
+    public class BitapiClient_REST
     {
         HttpClient client = new HttpClient();
 

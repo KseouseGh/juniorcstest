@@ -16,9 +16,23 @@ namespace juniorcstest
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ViewModel ModelViewModel;
+
         public MainWindow()
         {
             InitializeComponent();
+            ModelViewModel = new ViewModel();
+            DataContext = ModelViewModel;
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private async void OnUpdateButtonClick(object sender, RoutedEventArgs e)
+        {
+            await ModelViewModel.UpdateBalance();
         }
     }
 }

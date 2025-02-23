@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BalanceCalculator.cs" />
     <Compile Include="BitapiClient.cs" />
     <Compile Include="BitapiClient_REST.cs" />
     <Compile Include="BitapiClient_WS.cs" />

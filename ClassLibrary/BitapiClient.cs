@@ -8,7 +8,7 @@ using TestHQ;
 
 namespace ClassLibrary
 {
-    internal class BitapiClient : ITestConnector
+    public class BitapiClient : ITestConnector
     {
         private BitapiClient_REST REST;
         private BitapiClient_WS WS;

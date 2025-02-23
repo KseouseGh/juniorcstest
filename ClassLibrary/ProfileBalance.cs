@@ -9,6 +9,7 @@ namespace ClassLibrary
 {
     public class ProfileBalance
     {
+        public ProfileBalance() { }
         public decimal BTC { get; set; }
         public decimal XRP { get; set; }
         public decimal XMR { get; set; }

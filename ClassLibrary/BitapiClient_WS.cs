@@ -16,7 +16,7 @@ using Newtonsoft.Json.Linq;
 namespace ClassLibrary
 {
     [Serializable]
-    internal class BitapiClient_WS
+    public class BitapiClient_WS
     {
         public BitapiClient_WS() { }
 
