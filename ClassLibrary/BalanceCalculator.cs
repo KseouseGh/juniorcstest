@@ -26,20 +26,34 @@ namespace ClassLibrary
                 XMR = 50m,
                 DASH = 30m
             };
-            var tickerBTCtoUSDT = (await connector.GetTickerAsync("BTCUSDT")).FirstOrDefault();
-            var tickerXRPtoUSDT = (await connector.GetTickerAsync("XRPUSDT")).FirstOrDefault();
-            var tickerXMRtoUSDT = (await connector.GetTickerAsync("XMRUSDT")).FirstOrDefault();
-            var tickerDASHtoUSDT = (await connector.GetTickerAsync("DASHUSDT")).FirstOrDefault();
-            var tickerBTCtoXRP = (await connector.GetTickerAsync("BTCXRP")).FirstOrDefault();
-            var tickerBTCtoXMR = (await connector.GetTickerAsync("BTCXMR")).FirstOrDefault();
-            var tickerBTCtoDASH = (await connector.GetTickerAsync("BTCDASH")).FirstOrDefault();
-            GeneralBalance.USDT = (GeneralBalance.BTC * tickerBTCtoUSDT) + (GeneralBalance.XRP * tickerXRPtoUSDT) + (GeneralBalance.XMR * tickerXMRtoUSDT) + (GeneralBalance.DASH * tickerDASHtoUSDT);
-            decimal totalBTC = GeneralBalance.BTC + (GeneralBalance.XRP / tickerBTCtoXRP) + (GeneralBalance.XMR / tickerBTCtoXMR) + (GeneralBalance.DASH / tickerBTCtoDASH);
-            GeneralBalance.XRP = totalBTC * tickerBTCtoXRP;
-            GeneralBalance.XMR = totalBTC * tickerBTCtoXMR;
-            GeneralBalance.DASH = totalBTC * tickerBTCtoDASH;
+            decimal GetValidTickerValue(decimal? value) => value ?? 0m;
+            var tickerBTCtoUSDT = GetValidTickerValue((await connector.GetTickerAsync("BTCUSDT")).FirstOrDefault());
+            var tickerXRPtoUSDT = GetValidTickerValue((await connector.GetTickerAsync("XRPUSDT")).FirstOrDefault());
+            var tickerXMRtoUSDT = GetValidTickerValue((await connector.GetTickerAsync("XMRUSDT")).FirstOrDefault());
+            var tickerDASHtoUSDT = GetValidTickerValue((await connector.GetTickerAsync("DASHUSDT")).FirstOrDefault());
+            var tickerBTCtoXRP = GetValidTickerValue((await connector.GetTickerAsync("BTCXRP")).FirstOrDefault());
+            var tickerBTCtoXMR = GetValidTickerValue((await connector.GetTickerAsync("BTCXMR")).FirstOrDefault());
+            var tickerBTCtoDASH = GetValidTickerValue((await connector.GetTickerAsync("BTCDASH")).FirstOrDefault());
+            GeneralBalance.USDT = (GeneralBalance.BTC * tickerBTCtoUSDT)
+                                + (GeneralBalance.XRP * tickerXRPtoUSDT)
+                                + (GeneralBalance.XMR * tickerXMRtoUSDT)
+                                + (GeneralBalance.DASH * tickerDASHtoUSDT);
+            decimal btcFromXRP = tickerBTCtoXRP > 0 ? GeneralBalance.XRP / tickerBTCtoXRP : 0;
+            decimal btcFromXMR = tickerBTCtoXMR > 0 ? GeneralBalance.XMR / tickerBTCtoXMR : 0;
+            decimal btcFromDASH = tickerBTCtoDASH > 0 ? GeneralBalance.DASH / tickerBTCtoDASH : 0;
+            decimal totalBTC = GeneralBalance.BTC + btcFromXRP + btcFromXMR + btcFromDASH;
             GeneralBalance.BTC = totalBTC;
-            return GeneralBalance;
+            decimal equivalentXRP = totalBTC * tickerBTCtoXRP;
+            decimal equivalentXMR = totalBTC * tickerBTCtoXMR;
+            decimal equivalentDASH = totalBTC * tickerBTCtoDASH;
+            return new ProfileBalance
+            {
+                BTC = GeneralBalance.BTC,
+                XRP = GeneralBalance.XRP,
+                XMR = GeneralBalance.XMR,
+                DASH = GeneralBalance.DASH,
+                USDT = GeneralBalance.USDT
+            };
         }
     }
 }
